@@ -1,15 +1,18 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
-const FormComponent: React.FC = () => {
-  interface FormValues {
-    title: string;
-    name: string;
-    age: string;
-    email: string;
-    phone: string;
-  }
+interface FormValues {
+  title: string;
+  name: string;
+  age: string;
+  email: string;
+  phone: string;
+}
 
+interface FormComponentProps {
+  onSubmit: (values: FormValues) => void;
+}
+const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
   const initialValues: FormValues = {
     title: "",
     name: "",
@@ -17,6 +20,8 @@ const FormComponent: React.FC = () => {
     email: "",
     phone: "",
   };
+
+  // a Yup Schema for Validation and regex
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
@@ -35,11 +40,12 @@ const FormComponent: React.FC = () => {
       .required("Phone is required"),
   });
 
-  const onSubmit = (
+  const handleSubmit = (
     values: FormValues,
     { resetForm }: FormikHelpers<FormValues>
   ) => {
     console.log("Form Data:", values);
+    onSubmit(values); // Send data to the parent component
     resetForm(); // Reset after submission
   };
 
@@ -49,7 +55,7 @@ const FormComponent: React.FC = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
