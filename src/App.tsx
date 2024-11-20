@@ -17,6 +17,13 @@ function App() {
     // Add the new card to the Unclaimed column
     setCards([...cards, values]);
   };
+
+  // Function to handle deleting a card
+  const handleDeleteCard = (index: number) => {
+    // Remove the card at the specific index
+    setCards(cards.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="bg-gray-800 min-h-screen p-5">
       <header className="flex flex-col items-center justify-center text-2xl text-white mb-8">
@@ -27,7 +34,7 @@ function App() {
         {/* Form Section */}
         <FormComponent onSubmit={handleFormSubmit} />
         {/* Kanban Board Section */}
-        <Board cards={cards} />
+        <Board cards={cards} onDeleteCard={handleDeleteCard} />
       </div>
     </div>
   );
