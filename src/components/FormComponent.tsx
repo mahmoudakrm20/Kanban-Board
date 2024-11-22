@@ -1,13 +1,6 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
-
-interface FormValues {
-  title: string;
-  name: string;
-  age: string;
-  email: string;
-  phone: string;
-}
+import { FormValues } from "./types";
 
 interface FormComponentProps {
   onSubmit: (values: FormValues) => void;

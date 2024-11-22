@@ -1,27 +1,32 @@
 import { useState } from "react";
 import Board from "./components/Board";
 import FormComponent from "./components/FormComponent";
-interface MemberCard {
-  title: string;
-  name: string;
-  age: string;
-  email: string;
-  phone: string;
-}
-function App() {
-  // State of cards
-  const [cards, setCards] = useState<MemberCard[]>([]);
+import UpdateModal from "./components/UpdateModal";
+import { MemberCard } from "./components/types";
 
-  // Function to handle form and add new card
+function App() {
+  const [cards, setCards] = useState<MemberCard[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentCardIndex, setCurrentCardIndex] = useState<number | null>(null);
   const handleFormSubmit = (values: MemberCard) => {
-    // Add the new card to the Unclaimed column
     setCards([...cards, values]);
   };
-
-  // Function to handle deleting a card
   const handleDeleteCard = (index: number) => {
-    // Remove the card at the specific index
     setCards(cards.filter((_, i) => i !== index));
+  };
+
+  const handleUpdateCard = (values: MemberCard) => {
+    if (currentCardIndex !== null) {
+      const updatedCards = [...cards];
+      updatedCards[currentCardIndex] = values;
+      setCards(updatedCards);
+      setIsModalOpen(false);
+    }
+  };
+
+  const openModal = (index: number) => {
+    setCurrentCardIndex(index);
+    setIsModalOpen(true);
   };
 
   return (
@@ -29,13 +34,21 @@ function App() {
       <header className="flex flex-col items-center justify-center text-2xl text-white mb-8">
         <b>Kanban Board</b>
       </header>
-
       <div className="flex flex-row text-white">
-        {/* Form Section */}
         <FormComponent onSubmit={handleFormSubmit} />
-        {/* Kanban Board Section */}
-        <Board cards={cards} onDeleteCard={handleDeleteCard} />
+        <Board
+          cards={cards}
+          onDeleteCard={handleDeleteCard}
+          onEditCard={openModal}
+        />
       </div>
+      {isModalOpen && currentCardIndex !== null && (
+        <UpdateModal
+          card={cards[currentCardIndex]}
+          onClose={() => setIsModalOpen(false)}
+          onUpdate={handleUpdateCard}
+        />
+      )}
     </div>
   );
 }
