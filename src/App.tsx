@@ -9,7 +9,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState<number | null>(null);
   const handleFormSubmit = (values: MemberCard) => {
-    setCards([...cards, values]);
+    setCards([...cards, { ...values, status: "Unclaimed" }]);
   };
   const handleDeleteCard = (index: number) => {
     setCards(cards.filter((_, i) => i !== index));
@@ -29,6 +29,42 @@ function App() {
     setIsModalOpen(true);
   };
 
+  const moveCardForward = (index: number) => {
+    setCards((prevCards) =>
+      prevCards.map((card, i) =>
+        i === index
+          ? {
+              ...card,
+              status:
+                card.status === "Unclaimed"
+                  ? "First Contact"
+                  : card.status === "First Contact"
+                  ? "Preparing Work Offer"
+                  : "Send to Therapist",
+            }
+          : card
+      )
+    );
+  };
+
+  const moveCardBackward = (index: number) => {
+    setCards((prevCards) =>
+      prevCards.map((card, i) =>
+        i === index
+          ? {
+              ...card,
+              status:
+                card.status === "Send to Therapist"
+                  ? "Preparing Work Offer"
+                  : card.status === "Preparing Work Offer"
+                  ? "First Contact"
+                  : "Unclaimed",
+            }
+          : card
+      )
+    );
+  };
+
   return (
     <div className="bg-gray-800 min-h-screen p-5">
       <header className="flex flex-col items-center justify-center text-2xl text-white mb-8">
@@ -40,6 +76,8 @@ function App() {
           cards={cards}
           onDeleteCard={handleDeleteCard}
           onEditCard={openModal}
+          onMoveCardForward={moveCardForward}
+          onMoveCardBackward={moveCardBackward}
         />
       </div>
       {isModalOpen && currentCardIndex !== null && (
