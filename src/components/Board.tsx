@@ -1,3 +1,10 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faTrash,
+  faArrowLeft,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { MemberCard } from "./types";
 interface BoardProps {
   cards: MemberCard[];
@@ -6,8 +13,6 @@ interface BoardProps {
   onMoveCardForward: (index: number) => void;
   onMoveCardBackward: (index: number) => void;
 }
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 const Board: React.FC<BoardProps> = ({
   cards,
   onDeleteCard,
@@ -17,7 +22,7 @@ const Board: React.FC<BoardProps> = ({
 }) => {
   return (
     <div className="flex flex-col w-full text-center h-full">
-      <div className="flex flex-row h-full justify-between gap-4 overflow-x-auto">
+      <div className="flex flex-row flex-wrap h-full justify-between gap-4 overflow-x-auto">
         {[
           "Unclaimed",
           "First Contact",
@@ -31,22 +36,21 @@ const Board: React.FC<BoardProps> = ({
           return (
             <div
               key={status}
-              className="flex-1 min-w-[250px] bg-gray-50 h-fit rounded-md shadow-md"
+              className="flex-1 min-w-[300px] max-w-[600px] w-full sm:w-[320px] md:w-[360px] lg:w-[400px] xl:w-[450px] bg-gray-50 h-fit rounded-md shadow-md"
             >
               {/* Column Header */}
-              <div className="flex items-center justify-between px-4 py-2 bg-blue-500 text-white rounded-t-md">
-                <span className="text-sm font-semibold">{status}</span>
-                <span className="bg-blue-700 px-2 py-1 text-xs rounded-full">
+              <div className="flex items-center justify-between px-4 py-4 bg-[#bed0de] text-black rounded-t-md">
+                <span className="text-base font-semibold">{status}</span>
+                <span className="bg-white px-4 py-2 text-base rounded-full">
                   {columnCards.length}
                 </span>
               </div>
 
               {/* Column Body */}
               <div
-                className="bg-blue-100 border border-gray-300 rounded-b-md h-[calc(100vh-150px)] overflow-y-auto p-2"
+                className="bg-[#bed0de] border border-gray-300 rounded-b-md h-[calc(100vh-350px)] overflow-y-auto p-2"
                 style={{
-                  scrollbarWidth: "thin",
-                  scrollbarColor: "#888 #e0e0e0",
+                  scrollbarColor: "#a6bccf #cbdce8 ",
                 }}
               >
                 {columnCards.map((card) => {
@@ -101,26 +105,26 @@ const Board: React.FC<BoardProps> = ({
                         <button
                           onClick={() => onMoveCardBackward(originalIndex)}
                           disabled={status === "Unclaimed"}
-                          className={`py-2 px-4 rounded-lg text-sm font-semibold ${
+                          className={`py-2 px-3 rounded-full text-sm font-semibold ${
                             status === "Unclaimed"
                               ? "bg-gray-300 text-gray-700 cursor-not-allowed"
                               : "bg-gray-500 text-white hover:bg-gray-600 transition-colors duration-200"
                           }`}
                           title="Move Back"
                         >
-                          &lt;
+                          <FontAwesomeIcon icon={faArrowLeft} />
                         </button>
                         <button
                           onClick={() => onMoveCardForward(originalIndex)}
                           disabled={status === "Send to Therapist"}
-                          className={`py-2 px-4 rounded-lg text-sm font-semibold ${
+                          className={`py-2 px-3 rounded-full text-sm font-semibold ${
                             status === "Send to Therapist"
                               ? "bg-gray-300 text-gray-700 cursor-not-allowed"
                               : "bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
                           }`}
                           title="Move Forward"
                         >
-                          &gt;
+                          <FontAwesomeIcon icon={faArrowRight} />
                         </button>
                       </div>
                     </div>

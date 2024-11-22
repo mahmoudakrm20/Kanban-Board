@@ -43,7 +43,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 m-8">
+    <div className="flex flex-col text-black gap-4 m-8">
       <b>Form</b>
       <Formik
         initialValues={initialValues}
@@ -54,7 +54,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
           <Form>
             {/* Title Field */}
             <div>
-              <label htmlFor="title">Title:</label>
+              <label className="text-black font-semibold" htmlFor="title">
+                Title:
+              </label>
               <Field
                 type="text"
                 id="title"
@@ -69,7 +71,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
             </div>
             {/* Name Field */}
             <div>
-              <label htmlFor="name">Name:</label>
+              <label className="text-black font-semibold" htmlFor="name">
+                Name:
+              </label>
               <Field
                 type="text"
                 id="name"
@@ -84,7 +88,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
             </div>
             {/* Age Field */}
             <div>
-              <label htmlFor="age">Age:</label>
+              <label className="text-black font-semibold" htmlFor="age">
+                Age:
+              </label>
               <Field
                 type="text"
                 id="age"
@@ -99,7 +105,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
             </div>
             {/* Email Field */}
             <div>
-              <label htmlFor="email">Email:</label>
+              <label className="text-black font-semibold" htmlFor="email">
+                Email:
+              </label>
               <Field
                 type="text"
                 id="email"
@@ -114,7 +122,9 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
             </div>
             {/* Phone Field */}
             <div>
-              <label htmlFor="phone">Phone:</label>
+              <label className="text-black font-semibold" htmlFor="phone">
+                Phone:
+              </label>
               <Field
                 type="text"
                 id="phone"
@@ -131,7 +141,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ onSubmit }) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white p-2 rounded-md mt-4"
+              className="bg-gray-700 text-white p-2 rounded-md mt-4 "
             >
               Submit
             </button>

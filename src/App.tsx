@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Board from "./components/Board";
 import FormComponent from "./components/FormComponent";
 import UpdateModal from "./components/UpdateModal";
 import { MemberCard } from "./components/types";
-
 function App() {
-  const [cards, setCards] = useState<MemberCard[]>([]);
+  // Initialize state with localStorage data if available
+  const [cards, setCards] = useState<MemberCard[]>(() => {
+    const savedCards = localStorage.getItem("cards");
+    return savedCards ? JSON.parse(savedCards) : [];
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("cards", JSON.stringify(cards));
+  }, [cards]);
+
   const handleFormSubmit = (values: MemberCard) => {
     setCards([...cards, { ...values, status: "Unclaimed" }]);
   };
@@ -66,11 +74,11 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-800 min-h-screen p-5">
-      <header className="flex flex-col items-center justify-center text-2xl text-white mb-8">
+    <div className=" min-h-screen p-5 bg-[#d6e4ec]">
+      <header className="flex flex-col items-center justify-center text-2xl text-black mb-8">
         <b>Kanban Board</b>
       </header>
-      <div className="flex flex-row text-white">
+      <div className="flex flex-row text-white ">
         <FormComponent onSubmit={handleFormSubmit} />
         <Board
           cards={cards}
